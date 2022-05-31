@@ -1,26 +1,16 @@
 <template>
   <article class="w-full h-screen border-t border-gray-300 border-solid mt-2 ml-4">
-    <div class="tag w-full">
-      <ul class="flex my-2 mx-5">
-        <li class="bg-black text-white py-1 px-3 text-sm rounded-full">All</li>
-        <li class="py-1 px-3 text-sm rounded-full border-gray-300 border-solid border ml-2 bg-gray-100">Ukraine</li>
-        <li class="py-1 px-3 text-sm rounded-full border-gray-300 border-solid border ml-2 bg-gray-100">Viet Nam</li>
-        <li class="py-1 px-3 text-sm rounded-full border-gray-300 border-solid border ml-2 bg-gray-100">U23 Viet Nam</li>
-        <li class="py-1 px-3 text-sm rounded-full border-gray-300 border-solid border ml-2 bg-gray-100">Thời sự</li>
-        <li class="py-1 px-3 text-sm rounded-full border-gray-300 border-solid border ml-2 bg-gray-100">Báo thanh niên</li>
-      </ul>
-    </div>
     <div class="video bg-gray-50 border-t border-gray-300 border-solid h-screen p-5 grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-6 xl:grid-cols-4 ">
       <NuxtLink to="/videos/1" tag="div" class="cursor-pointer">
         <img class="w-full h-40 bg-no-repeat bg-center bg-cover mb-3" src="https://imageio.forbes.com/specials-images/imageserve/61a628462b5221d02c03d8ca/0x0.jpg?format=jpg&width=1200" alt="">
         <div class="intro flex">
-          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://wallpaperaccess.com/full/5584404.jpg" alt="">
+          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://lh3.googleusercontent.com/ogw/ADea4I5gEsxUkEvUmQZut87sGSGyAjM8YpSXiFynHRXT=s32-c-mo" alt="">
           <div class="desc">
             <div class="title font-semibold mb-1">
               Khả năng bảo mật của thẻ căn cước gắn chíp
             </div>
             <div class="author_name text-gray-600 flex">
-              <p class="mr-2">PEWPEW</p> <span><i class="fas fa-check-circle"></i></span>
+              <p class="mr-2">Chien Tran</p> <span><i class="fas fa-check-circle"></i></span>
             </div>
             <div class="view">
               1.2K <span>views</span>
@@ -33,13 +23,13 @@
       <NuxtLink to="/videos/1" tag="div" class="cursor-pointer">
         <img class="w-full h-40 bg-no-repeat bg-center bg-cover mb-3" src="https://imageio.forbes.com/specials-images/imageserve/61a628462b5221d02c03d8ca/0x0.jpg?format=jpg&width=1200" alt="">
         <div class="intro flex">
-          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://wallpaperaccess.com/full/5584404.jpg" alt="">
+          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://lh3.googleusercontent.com/ogw/ADea4I5gEsxUkEvUmQZut87sGSGyAjM8YpSXiFynHRXT=s32-c-mo" alt="">
           <div class="desc">
             <div class="title font-semibold mb-1">
               Khả năng bảo mật của thẻ căn cước gắn chíp
             </div>
             <div class="author_name text-gray-600 flex">
-              <p class="mr-2">PEWPEW</p> <span><i class="fas fa-check-circle"></i></span>
+              <p class="mr-2">Chien Tran</p> <span><i class="fas fa-check-circle"></i></span>
             </div>
             <div class="view">
               1.2K <span>views</span>
@@ -52,13 +42,13 @@
       <NuxtLink to="/videos/1" tag="div" class="cursor-pointer">
         <img class="w-full h-40 bg-no-repeat bg-center bg-cover mb-3" src="https://imageio.forbes.com/specials-images/imageserve/61a628462b5221d02c03d8ca/0x0.jpg?format=jpg&width=1200" alt="">
         <div class="intro flex">
-          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://wallpaperaccess.com/full/5584404.jpg" alt="">
+          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://lh3.googleusercontent.com/ogw/ADea4I5gEsxUkEvUmQZut87sGSGyAjM8YpSXiFynHRXT=s32-c-mo" alt="">
           <div class="desc">
             <div class="title font-semibold mb-1">
               Khả năng bảo mật của thẻ căn cước gắn chíp
             </div>
             <div class="author_name text-gray-600 flex">
-              <p class="mr-2">PEWPEW</p> <span><i class="fas fa-check-circle"></i></span>
+              <p class="mr-2">Chien Tran</p> <span><i class="fas fa-check-circle"></i></span>
             </div>
             <div class="view">
               1.2K <span>views</span>
@@ -71,13 +61,13 @@
       <NuxtLink to="/videos/1" tag="div" class="cursor-pointer">
         <img class="w-full h-40 bg-no-repeat bg-center bg-cover mb-3" src="https://imageio.forbes.com/specials-images/imageserve/61a628462b5221d02c03d8ca/0x0.jpg?format=jpg&width=1200" alt="">
         <div class="intro flex">
-          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://wallpaperaccess.com/full/5584404.jpg" alt="">
+          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://lh3.googleusercontent.com/ogw/ADea4I5gEsxUkEvUmQZut87sGSGyAjM8YpSXiFynHRXT=s32-c-mo" alt="">
           <div class="desc">
             <div class="title font-semibold mb-1">
               Khả năng bảo mật của thẻ căn cước gắn chíp
             </div>
             <div class="author_name text-gray-600 flex">
-              <p class="mr-2">PEWPEW</p> <span><i class="fas fa-check-circle"></i></span>
+              <p class="mr-2">Chien Tran</p> <span><i class="fas fa-check-circle"></i></span>
             </div>
             <div class="view">
               1.2K <span>views</span>
@@ -90,13 +80,13 @@
       <NuxtLink to="/videos/1" tag="div" class="cursor-pointer">
         <img class="w-full h-40 bg-no-repeat bg-center bg-cover mb-3" src="https://imageio.forbes.com/specials-images/imageserve/61a628462b5221d02c03d8ca/0x0.jpg?format=jpg&width=1200" alt="">
         <div class="intro flex">
-          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://wallpaperaccess.com/full/5584404.jpg" alt="">
+          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://lh3.googleusercontent.com/ogw/ADea4I5gEsxUkEvUmQZut87sGSGyAjM8YpSXiFynHRXT=s32-c-mo" alt="">
           <div class="desc">
             <div class="title font-semibold mb-1">
               Khả năng bảo mật của thẻ căn cước gắn chíp
             </div>
             <div class="author_name text-gray-600 flex">
-              <p class="mr-2">PEWPEW</p> <span><i class="fas fa-check-circle"></i></span>
+              <p class="mr-2">Chien Tran</p> <span><i class="fas fa-check-circle"></i></span>
             </div>
             <div class="view">
               1.2K <span>views</span>
@@ -109,13 +99,13 @@
       <NuxtLink to="/videos/1" tag="div" class="cursor-pointer">
         <img class="w-full h-40 bg-no-repeat bg-center bg-cover mb-3" src="https://imageio.forbes.com/specials-images/imageserve/61a628462b5221d02c03d8ca/0x0.jpg?format=jpg&width=1200" alt="">
         <div class="intro flex">
-          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://wallpaperaccess.com/full/5584404.jpg" alt="">
+          <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" src="https://lh3.googleusercontent.com/ogw/ADea4I5gEsxUkEvUmQZut87sGSGyAjM8YpSXiFynHRXT=s32-c-mo" alt="">
           <div class="desc">
             <div class="title font-semibold mb-1">
               Khả năng bảo mật của thẻ căn cước gắn chíp
             </div>
             <div class="author_name text-gray-600 flex">
-              <p class="mr-2">PEWPEW</p> <span><i class="fas fa-check-circle"></i></span>
+              <p class="mr-2">Chien Tran</p> <span><i class="fas fa-check-circle"></i></span>
             </div>
             <div class="view">
               1.2K <span>views</span>
@@ -131,6 +121,6 @@
 </template>
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'userVideos'
 }
 </script>

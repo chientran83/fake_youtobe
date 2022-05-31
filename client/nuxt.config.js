@@ -8,7 +8,9 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+          { rel: 'stylesheet',type:"text/css", href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css' },
+          { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Roboto+Condensed&family=Roboto:wght@300&display=swap' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
