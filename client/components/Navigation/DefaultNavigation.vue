@@ -1,5 +1,5 @@
 <template>
-    <div class="w-auto lg:w-52 h-screen">
+    <div class="w-auto lg:w-52 h-auto">
         <ul class="w-full">
             <nuxt-link to="/" tag="li" class="flex py-3 cursor-pointer">
                 <div class="w-1/3 px-2 lg:px-0 text-center">

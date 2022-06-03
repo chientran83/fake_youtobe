@@ -1,5 +1,5 @@
 <template>
-   <article class="w-full bg-gray-100 pl-10 h-screen border-t border-gray-300 border-solid mt-2 ml-4">
+   <article class="w-full bg-gray-100 pl-10 h-full border-t border-gray-300 border-solid mt-2 ml-4">
     <p class="text-2xl font-semibold my-6">Channel content</p>
     <div class="bg-white">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -97,6 +97,7 @@
 <script>
 export default {
   name: 'StudioContent',
-  layout:'studio'
+  layout:'studio',
+  middleware:['auth','checkAuth']
 }
 </script>

@@ -35,12 +35,12 @@
             </div>
             <div v-if="$store.state.userLogin">
                 <div class="avatar h-full w-10 mr-9 bg-center bg-cover bg-no-repeat relative">
-                    <img class="h-full w-full rounded-full cursor-pointer "  src="https://lh3.googleusercontent.com/ogw/ADea4I5gEsxUkEvUmQZut87sGSGyAjM8YpSXiFynHRXT=s32-c-mo" alt="" @click="visiblePopup = !visiblePopup">
+                    <img class="h-full w-full rounded-full cursor-pointer "  :src="$config.baseApiUrl + $store.state.userLogin.image_path" alt="" @click="visiblePopup = !visiblePopup">
                     <div v-if="visiblePopup" class="w-72 h-96 absolute right-12 top-0 border border-solid border-gray-300 bg-white z-10">
                         <div class="w-full h-100 p-3 flex">
-                            <img class="h-10 w-10 rounded-full mr-2" src="https://lh3.googleusercontent.com/ogw/ADea4I5gEsxUkEvUmQZut87sGSGyAjM8YpSXiFynHRXT=s32-c-mo" alt="">
+                            <img class="h-10 w-10 rounded-full mr-2" :src="$config.baseApiUrl + $store.state.userLogin.image_path" alt="">
                             <div class="flex flex-col">
-                                <p class="text-lg text-black font-semibold">Chien Tran</p>
+                                <p class="text-lg text-black font-semibold">{{$store.state.userLogin.name}}</p>
                                 <p class="text-sm text-blue-500">Manage your Google Account</p>
                             </div>
                         </div>
@@ -84,7 +84,10 @@ export default {
             this.$router.push('/studio')
         },
         logout(){
-            this.$router.push('/login')
+            this.$store.dispatch('logout')
+                .then((e) => {
+                    this.$router.push('/login')
+                })
         }
     }
 }

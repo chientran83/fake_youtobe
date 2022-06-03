@@ -33,16 +33,15 @@
             <div class="notice text-gray-300">
                 <i class="fa-solid fa-bell"></i>
             </div>
-
             <div v-if="$store.state.userLogin">
                 <div class="avatar h-full w-10 mr-9 bg-center bg-cover bg-no-repeat relative">
-                    <img class="h-full w-full rounded-full cursor-pointer " src="/images/avatarC.png" alt="" @click="visiblePopup = !visiblePopup" >
+                    <img class="h-full w-full rounded-full cursor-pointer " :src="$config.baseApiUrl + $store.state.userLogin.image_path" alt="" @click="visiblePopup = !visiblePopup" >
                     
                     <div v-if="visiblePopup" class="w-72 h-96 absolute right-12 top-0 border border-solid border-gray-300 bg-white" >
                         <div class="w-full h-100 p-3 flex">
-                            <img class="h-10 w-10 rounded-full mr-2" src="/images/avatarC.png" alt="">
+                            <img class="h-10 w-10 rounded-full mr-2" :src="$config.baseApiUrl + $store.state.userLogin.image_path" alt="">
                             <div class="flex flex-col">
-                                <p class="text-lg text-black font-semibold">Chien Tran</p>
+                                <p class="text-lg text-black font-semibold">{{$store.state.userLogin.name}}</p>
                                 <p class="text-sm text-blue-500">Manage your Google Account</p>
                             </div>
                         </div>
@@ -68,7 +67,7 @@
                 </div>
             </div>
             <div v-else>
-                <div class="flex text-blue-600 items-center text-base border border-solid border-blue-600 py-1 px-3 mr-2 cursor-pointer" @click="$router.push('/login')">
+                <div class="flex text-blue-600 items-center text-xs lg:text-base border border-solid border-blue-600 py-1 px-2 md:px-3 mr-2 cursor-pointer" @click="$router.push('/login')">
                     <i class="far fa-user mr-2"></i>
                     <p class="">SIGN IN</p>
                 </div>
@@ -88,7 +87,10 @@ export default {
             this.$router.push('/')
         },
         logout(){
-            this.$router.push('/login')
+            this.$store.dispatch('logout')
+                .then((e) => {
+                        this.$router.push('/login')
+                    })
         }
     }
 }

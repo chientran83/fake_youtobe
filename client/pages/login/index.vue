@@ -8,11 +8,11 @@
         </div>
         <div class="w-96 mx-auto mb-5">
             <p class="mb-3">Email</p>
-            <input type="text" class="w-full border border-solid border-gray-500 p-3" placeholder="Enter email!">
+            <input  v-model="user.email" type="text" class="w-full border border-solid border-gray-500 p-3"  placeholder="Enter email!">
         </div>
         <div class="w-96 mx-auto">
             <p class="mb-3">Password</p>
-            <input type="text" class="w-full border border-solid border-gray-500 p-3" placeholder="Enter password!">
+            <input v-model="user.password" type="password" class="w-full border border-solid border-gray-500 p-3"  placeholder="Enter password!">
         </div>
         <p class="w-96 mx-auto text-blue-600 mt-3 mb-4">Are you forget password ?</p>
         <div class="w-96 mx-auto flex justify-between items-center mb-20">
@@ -27,10 +27,22 @@
 export default {
     name:'LoginIndex',
     layout:'public',
+    data() {
+        return {
+            user:{
+                email:"",
+                password:""
+            }
+        }
+    },
     methods:{
         login(){
-            this.$store.state.userLogin = true;
-            this.$router.push('/')
+            this.$store.dispatch('login',this.user)
+                .then((success) => {
+                    if(success){
+                        this.$router.push('/')
+                    }
+                 })
         }
     }
 }

@@ -17,7 +17,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['@plugins/formatView.js','@/plugins/formatMoney.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -55,4 +55,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  env: {
+    baseUrl: 'http://localhost:3000',
+    baseApiUrl : 'http://localhost:8000'
+  },
+  publicRuntimeConfig:{
+    baseUrl: process.env.baseUrl || 'http://localhost:3000',
+    baseApiUrl: process.env.baseApiUrl || 'http://localhost:8000'
+  }
 }

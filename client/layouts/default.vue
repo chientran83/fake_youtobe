@@ -1,7 +1,7 @@
 <template>
 <div class="box-sizing">
   <DefaultHeader></DefaultHeader>
-  <section class="flex w-full items-start">
+  <section class="flex w-full">
     <DefaultNavigation></DefaultNavigation>
     <Nuxt />
   </section>
