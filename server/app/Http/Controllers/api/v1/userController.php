@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\v1\userResource;
-use App\Http\Resources\v1\videoCollection;
-use App\Http\Resources\v1\videoResource;
+use App\Http\Resources\v1\UserResource;
+use App\Http\Resources\v1\VideoCollection;
+use App\Http\Resources\v1\VideoResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\FileStorageTrait;
@@ -38,7 +38,7 @@ class userController extends Controller
             
             return response()->json([
                 'code' => 200,
-                'data' => new userResource($newUser)
+                'data' => new UserResource($newUser)
             ],200);
         }else{
             return response()->json([
@@ -92,10 +92,10 @@ class userController extends Controller
     public function userProfile(Request $request){
         return response()->json([
             'code' => 200,
-            'message' => new userResource(auth()->user())
+            'message' => new UserResource(auth()->user())
         ],200);
     }
     public function userVideo(){
-        return new videoCollection(auth()->user()->userVideo);
+        return new VideoCollection(auth()->user()->userVideo);
     }
 }

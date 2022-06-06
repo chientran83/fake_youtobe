@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\v1\videoCollection;
-use App\Http\Resources\v1\videoResource;
+use App\Http\Resources\v1\VideoCollection;
+use App\Http\Resources\v1\VideoResource;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Traits\fileStorageTrait;
@@ -34,7 +34,7 @@ class videoController extends Controller
         $newVideo = $this->video->create($data);
         return response()->json([
             'code' => 200,
-            'data' => new videoResource($newVideo)
+            'data' => new VideoResource($newVideo)
         ],200);
     }
 
@@ -46,7 +46,7 @@ class videoController extends Controller
         }else{
             $data = $this->video->all();
         }
-        return  new videoCollection($data);
+        return  new VideoCollection($data);
     }
     
     public function show(Request $request){
@@ -54,7 +54,7 @@ class videoController extends Controller
         if($videoItem){
             return response()->json([
                 'code' => 200,
-                'data' => new videoResource($videoItem)
+                'data' => new VideoResource($videoItem)
             ],200);
         }else{
             return response()->json([
@@ -81,7 +81,7 @@ class videoController extends Controller
             $videoItem = $this->video->find($request->id);
             return response()->json([
                 'code' => 200,
-                'data' => new videoResource($videoItem)
+                'data' => new VideoResource($videoItem)
             ],200);
         }else{
             return response()->json([
@@ -96,7 +96,7 @@ class videoController extends Controller
             $this->video->find($request->id)->delete();
             return response()->json([
                 'code' => 200,
-                'data' => new videoResource($videoItem)
+                'data' => new VideoResource($videoItem)
             ],200);
         }else{
             return response()->json([

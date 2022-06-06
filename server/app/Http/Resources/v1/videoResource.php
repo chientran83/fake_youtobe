@@ -5,7 +5,7 @@ namespace App\Http\Resources\v1;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 
-class videoResource extends JsonResource
+class VideoResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

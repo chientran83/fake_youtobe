@@ -88,7 +88,6 @@ const store = () => {
               vuexContext.commit('clearToken');
               return false;
             }
-
             vuexContext.commit('setToken',tokenValue);
             vuexContext.dispatch('setLogoutTime',expireValue - new Date().getTime())
             vuexContext.commit('setUserLogin',JSON.parse(decodeURIComponent(userValue)));

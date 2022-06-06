@@ -41,7 +41,7 @@
               </div>
               <div class="my-2 mx-auto w-96 flex justify-center">
                 <img id="blah" class="w-60" :src="imagePreviewBeforeUpload" alt="your image" />  
-                <i v-if=" imagePreviewBeforeUpload != '/images/default.jpg'" class="fa-solid fa-xmark ml-3 text-red-500 cursor-pointer inline" @click="deleteImagePreviewAfterUpload"></i>
+                <i v-if=" imagePreviewBeforeUpload != '/images/default.jpg'" class="fa-solid fa-xmark ml-3 text-red-500 cursor-pointer inline" @click="deleteImagePreviewBeforeUpload"></i>
               </div>
 
             </div>
@@ -141,8 +141,8 @@ export default {
               this.imagePreviewBeforeUpload = "/images/default.jpg"
             }
           })
-          .catch((error) => {
-            console.error(error)
+          .catch(error => {
+            console.log(error)
             this.circleLoading = false
           })
         
@@ -174,7 +174,7 @@ export default {
         this.imagePreviewBeforeUpload = URL.createObjectURL(file)
       }
     },
-    deleteImagePreviewAfterUpload(){
+    deleteImagePreviewBeforeUpload(){
       this.imagePreviewBeforeUpload = "/images/default.jpg"
       this.$refs.inputImage.value = null;
     },
