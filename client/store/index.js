@@ -43,6 +43,7 @@ const store = () => {
           return axios.get(process.env.baseApiUrl + '/api/v1/video')
             .then(res => {
               vuexContext.commit('setVideos',res.data.data);
+
             })
         },
         login(vuexContext,credentials) {
@@ -71,22 +72,27 @@ const store = () => {
             // get cookie when run in server
             const cookie = req.headers.cookie
             const listCookie = cookie.split(';')
-            const token = listCookie.filter((item)=>{return item.startsWith('access_token=')})
+            const token = listCookie.filter((item)=>{
+              return item.trim().startsWith('access_token=')
+            })
             const tokenValue = token[0].trim().slice(13)
-            const expire = listCookie.filter((item)=>{return item.startsWith(' expires_in=')})
+            const expire = listCookie.filter((item)=>{
+              return item.trim().startsWith('expires_in=')
+            })
             const expireValue = expire[0].trim().slice(11)
-            const user = listCookie.filter((item)=>{return item.startsWith(' user=')})
+            const user = listCookie.filter((item)=>{
+              return item.trim().startsWith('user=')
+            })
             const userValue = user[0].trim().slice(5);
-
             if(!tokenValue || new Date().getTime() > expireValue){
               vuexContext.commit('clearToken');
               return false;
             }
+
             vuexContext.commit('setToken',tokenValue);
             vuexContext.dispatch('setLogoutTime',expireValue - new Date().getTime())
             vuexContext.commit('setUserLogin',JSON.parse(decodeURIComponent(userValue)));
             return true;
-
           }else{
             // get localStorage when run in client
             const token = localStorage.getItem('access_token');

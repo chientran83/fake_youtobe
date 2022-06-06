@@ -27,51 +27,54 @@
         </div>
         
         <div class="py-2 flex text-2xl w-96 justify-between">
-            <nuxt-link to="/studio" tag="div" class="create text-gray-300 cursor-pointer">
+            <nuxt-link to="/studio" class="create text-gray-300 cursor-pointer">
               <i class="fa-solid fa-circle-plus"></i>
             </nuxt-link>
             <div class="notice text-gray-300">
                 <i class="fa-solid fa-bell"></i>
             </div>
-            <div v-if="$store.state.userLogin">
-                <div class="avatar h-full w-10 mr-9 bg-center bg-cover bg-no-repeat relative">
-                    <img class="h-full w-full rounded-full cursor-pointer " :src="$config.baseApiUrl + $store.state.userLogin.image_path" alt="" @click="visiblePopup = !visiblePopup" >
-                    
-                    <div v-if="visiblePopup" class="w-72 h-96 absolute right-12 top-0 border border-solid border-gray-300 bg-white" >
-                        <div class="w-full h-100 p-3 flex">
-                            <img class="h-10 w-10 rounded-full mr-2" :src="$config.baseApiUrl + $store.state.userLogin.image_path" alt="">
-                            <div class="flex flex-col">
-                                <p class="text-lg text-black font-semibold">{{$store.state.userLogin.name}}</p>
-                                <p class="text-sm text-blue-500">Manage your Google Account</p>
+            <client-only>
+
+                <div v-if="$store.state.userLogin">
+                    <div class="avatar h-full w-10 mr-9 bg-center bg-cover bg-no-repeat relative">
+                        <img class="h-full w-full rounded-full cursor-pointer " :src="$config.baseApiUrl + $store.state.userLogin.image_path" alt="" @click="visiblePopup = !visiblePopup" >
+                        
+                        <div v-if="visiblePopup" class="w-72 h-96 absolute right-12 top-0 border border-solid border-gray-300 bg-white" >
+                            <div class="w-full h-100 p-3 flex">
+                                <img class="h-10 w-10 rounded-full mr-2" :src="$config.baseApiUrl + $store.state.userLogin.image_path" alt="">
+                                <div class="flex flex-col">
+                                    <p class="text-lg text-black font-semibold">{{$store.state.userLogin.name}}</p>
+                                    <p class="text-sm text-blue-500">Manage your Google Account</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-full h-100 p-3 flex border-solid border-t border-b border-gray-300">
-                            <ul class="w-full h-auto">
-                                <li class="flex w-full text-base hover:bg-gray-200 py-3 px-4 items-center cursor-pointer">
-                                    <i class="fas fa-video w-1/4"></i>
-                                    <nuxt-link to="/studio" tag="p" class="w-3/4 ">
-                                    Manage your videos
-                                    </nuxt-link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="w-full h-100 p-3 flex">
-                            <ul class="w-full h-auto">
-                                <li class="flex w-full text-base hover:bg-gray-200 py-3 px-4 items-center cursor-pointer" @click="logout">
-                                    <i class="fa-solid fa-arrow-right-from-bracket w-1/4 center"></i>
-                                    <p class="w-3/4 ">Sign out</p>
-                                </li>
-                            </ul>
+                            <div class="w-full h-100 p-3 flex border-solid border-t border-b border-gray-300">
+                                <ul class="w-full h-auto">
+                                    <li class="flex w-full text-base hover:bg-gray-200 py-3 px-4 items-center cursor-pointer">
+                                        <i class="fas fa-video w-1/4"></i>
+                                        <nuxt-link to="/studio" class="w-3/4 ">
+                                        Manage your videos
+                                        </nuxt-link>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="w-full h-100 p-3 flex">
+                                <ul class="w-full h-auto">
+                                    <li class="flex w-full text-base hover:bg-gray-200 py-3 px-4 items-center cursor-pointer" @click="logout">
+                                        <i class="fa-solid fa-arrow-right-from-bracket w-1/4 center"></i>
+                                        <p class="w-3/4 ">Sign out</p>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div v-else>
-                <div class="flex text-blue-600 items-center text-xs lg:text-base border border-solid border-blue-600 py-1 px-2 md:px-3 mr-2 cursor-pointer" @click="$router.push('/login')">
-                    <i class="far fa-user mr-2"></i>
-                    <p class="">SIGN IN</p>
+                <div v-else>
+                    <div class="flex text-blue-600 items-center text-xs lg:text-base border border-solid border-blue-600 py-1 px-2 md:px-3 mr-2 cursor-pointer" @click="$router.push('/login')">
+                        <i class="far fa-user mr-2"></i>
+                        <p class="">SIGN IN</p>
+                    </div>
                 </div>
-            </div>
+            </client-only>  
         </div>
     </div>
 </template>
@@ -80,6 +83,11 @@ export default {
     data(){
         return {
             visiblePopup: false
+        }
+    },
+    created(){
+        if(process.client){
+            this.$store.dispatch('initAuth')
         }
     },
     methods: {

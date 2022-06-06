@@ -28,7 +28,7 @@
         
         <div class="py-2 flex text-2xl w-96 justify-between">
             <div class="create text-gray-300">
-              <i class="fa-solid fa-circle-plus"></i>
+              <!-- <i class="fa-solid fa-circle-plus"></i> -->
             </div>
             <div class="notice text-gray-300">
                 <i class="fa-solid fa-bell"></i>

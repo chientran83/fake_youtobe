@@ -10,6 +10,9 @@
                           Video
                       </th>
                       <th scope="col" class="px-6 py-3">
+                          Name 
+                      </th>
+                      <th scope="col" class="px-6 py-3">
                           Visibility 
                       </th>
                       <th scope="col" class="px-6 py-3">
@@ -27,64 +30,27 @@
                   </tr>
               </thead>
               <tbody>
-                   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                   <tr v-for="(item,key) in videos" :key="key" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                       <th scope="row" class="pl-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                          <img class="w-40" src="https://culture.ec.europa.eu/sites/default/files/styles/eac_ratio_16_9_xl/public/2020-08/header-sector-ccs.jpg?h=9ffb04cf&itok=LMbsYP9x" alt="">
+                          <img class="w-40" :src="$config.baseApiUrl + item.image_path" alt="">
                       </th>
                       <td class="px-6 py-4">
-                          White
+                          {{ item.name }}
                       </td>
                       <td class="px-6 py-4">
-                          Laptop PC
+                          True
                       </td>
                       <td class="px-6 py-4">
-                          $1999
+                          {{ item.created_at }}
                       </td>
                       <td class="px-6 py-4">
-                          99
+                          {{ item.view }}
+                      </td>
+                      <td class="px-6 py-4">
+                          {{ item.like }}
                       </td>
                       <td class="px-6 py-4 text-right">
-                          <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                      </td>
-                  </tr>
-                   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                      <th scope="row" class="pl-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                          <img class="w-40" src="https://culture.ec.europa.eu/sites/default/files/styles/eac_ratio_16_9_xl/public/2020-08/header-sector-ccs.jpg?h=9ffb04cf&itok=LMbsYP9x" alt="">
-                      </th>
-                      <td class="px-6 py-4">
-                          White
-                      </td>
-                      <td class="px-6 py-4">
-                          Laptop PC
-                      </td>
-                      <td class="px-6 py-4">
-                          $1999
-                      </td>
-                      <td class="px-6 py-4">
-                          99
-                      </td>
-                      <td class="px-6 py-4 text-right">
-                          <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                      </td>
-                  </tr>
-                   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                      <th scope="row" class="pl-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                          <img class="w-40" src="https://culture.ec.europa.eu/sites/default/files/styles/eac_ratio_16_9_xl/public/2020-08/header-sector-ccs.jpg?h=9ffb04cf&itok=LMbsYP9x" alt="">
-                      </th>
-                      <td class="px-6 py-4">
-                          White
-                      </td>
-                      <td class="px-6 py-4">
-                          Laptop PC
-                      </td>
-                      <td class="px-6 py-4">
-                          $1999
-                      </td>
-                      <td class="px-6 py-4">
-                          99
-                      </td>
-                      <td class="px-6 py-4 text-right">
-                          <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
+                          <div class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer" @click="deleteVideo(item.id)">Delete</div>
                       </td>
                   </tr>
               </tbody>
@@ -95,9 +61,37 @@
   </article>
 </template>
 <script>
+import axios from "axios"
 export default {
   name: 'StudioContent',
   layout:'studio',
-  middleware:['auth','checkAuth']
+  middleware:['checkAuth','auth'],
+  data(){
+      return {
+          videos:null
+      }
+  },
+  created(){
+      this.$store.dispatch('setUserVideo')
+        .then(() => {
+            this.videos = this.$store.getters.getUserVideos
+        })
+  },
+  methods: {
+      deleteVideo(id){
+          axios.delete(process.env.baseApiUrl + '/api/v1/video/' + id,{headers:{Authorization : 'Bearer ' + this.$store.getters.getToken}})
+            .then(res => {
+                if(res.data.code === 200){
+                    alert('delete success !')
+                    this.videos = this.videos.filter(item => {return item.id !== id})
+                }else{
+                    alert('error !')
+                }
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+      }
+  }
 }
 </script>

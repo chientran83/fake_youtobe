@@ -24,7 +24,8 @@ class videoResource extends JsonResource
             'view' => $this->view,
             'like' => $this->like,
             'dislikes' => $this->dislikes,
-            'user' => DB::table('users')->where('id',$this->user_id)->first()
+            'user' => DB::table('users')->where('id',$this->user_id)->first(),
+            'created_at' => $this->created_at
         ];
     }
 }
