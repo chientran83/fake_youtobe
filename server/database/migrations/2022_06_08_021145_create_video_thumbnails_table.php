@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVideosTable extends Migration
+class CreateVideoThumbnailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateVideosTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_videos', function (Blueprint $table) {
+        Schema::create('tbl_video_thumbnail', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->string('video_path');
+            $table->string('image_path');
             $table->integer('view')->default(0);
-            $table->integer('like')->default(0);
-            $table->integer('dislike')->default(0);
-            $table->integer('user_id');
+            $table->integer('video_id');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ class CreateVideosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('videos');
+        Schema::dropIfExists('video_thumbnails');
     }
 }

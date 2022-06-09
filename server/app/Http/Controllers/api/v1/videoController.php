@@ -8,6 +8,7 @@ use App\Http\Resources\v1\VideoResource;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Traits\fileStorageTrait;
+use Illuminate\Support\Facades\DB;
 
 class videoController extends Controller
 {
@@ -26,12 +27,20 @@ class videoController extends Controller
         $data = array(
             'name' => $request->name,
             'description' => $request->description,
-            'image_path' => $this->storageFile($request,'image','videos','image'),
             'video_path' => $this->storageFile($request,'video','videos','video'),
             'user_id' => auth()->user()->id
         );
 
         $newVideo = $this->video->create($data);
+
+        
+        if($request->image){
+            foreach($request->image as $image){
+                $newVideo->thumbnail()->create([
+                    'image_path' => $this->storageMultipleFile($image,'image','video_thumbnail')
+                ]);
+            }
+        }
         return response()->json([
             'code' => 200,
             'data' => new VideoResource($newVideo)
@@ -48,9 +57,14 @@ class videoController extends Controller
         }
         return  new VideoCollection($data);
     }
-    
     public function show(Request $request){
         $videoItem = $this->video->find($request->id);
+        if($request->input('thumbnail')) {
+            if($videoItem->thumbnail->contains('id',$request->input('thumbnail'))){
+                $thumbnail = DB::table('tbl_video_thumbnail')->where('id',$request->input('thumbnail'))->first();
+                DB::table('tbl_video_thumbnail')->where('id',$request->input('thumbnail'))->update(['view' => $thumbnail->view + 1]);
+            }
+        }
         if($videoItem){
             return response()->json([
                 'code' => 200,
@@ -74,9 +88,6 @@ class videoController extends Controller
                 'name' => $request->name,
                 'description' => $request->description
             );
-            if($request->hasFile('image')){
-                $data['image_path'] = $this->storageFile($request,'image','videos','image');
-            }
             $this->video->find($request->id)->update($data);
             $videoItem = $this->video->find($request->id);
             return response()->json([
@@ -93,6 +104,7 @@ class videoController extends Controller
     public function delete(Request $request){
         $videoItem = $this->video->find($request->id);
         if($videoItem){
+            $videoItem->thumbnail()->delete();
             $this->video->find($request->id)->delete();
             return response()->json([
                 'code' => 200,
