@@ -37,8 +37,8 @@
        </div>
    </div>
    <div class="w-full xl:w-4/12 xl:pl-6">
-        <nuxt-link v-for="(index,key) in videos" v-bind:key="key" :to="'/videos/' + index.id" tag="div" class="w-full flex mb-3 cursor-pointer">
-                <img class="w-44 h-24 mr-2 " :src="$config.baseApiUrl + index.image_path" alt="">
+        <nuxt-link v-for="(index,key) in videos" v-bind:key="key" :to="'/videos/' + index.id + '?thumbnail=' + index.displayThumbnail.id" tag="div" class="w-full flex mb-3 cursor-pointer">
+                <img class="w-44 h-24 mr-2 " :src="$config.baseApiUrl + index.displayThumbnail.image_path" alt="">
                 <div>
                     <p class="font-semibold">{{index.name}}</p>
                     <p class="text-gray-500">{{index.user.name}}</p>
@@ -52,8 +52,8 @@
 import axios from "axios"
 export default {
     name:"videoIdIndex",
-    async asyncData({ params }){
-        const getVideo = await axios.get('http://localhost:8000/api/v1/video/'+ params.id)
+    async asyncData(context){
+        const getVideo = await axios.get('http://localhost:8000/api/v1/video/'+ context.params.id +'?thumbnail=' + context.route.query.thumbnail)
         return {video:getVideo.data.data}
     },
     data(){
@@ -63,7 +63,7 @@ export default {
     },
     created() {
         const videoList = this.$store.state.videos;
-        this.videos = videoList.filter((item) => {return item.id !== parseInt(this.$route.params.id, 10)})
+        this.videos = videoList.filter((item) => { return item.id !== parseInt(this.$route.params.id, 10)})
     },
 }
 </script>

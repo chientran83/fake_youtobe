@@ -1,5 +1,5 @@
 <template>
-   <article class="w-full bg-gray-100 pl-10 h-full border-t border-gray-300 border-solid mt-2 ml-4">
+   <article class="w-full bg-gray-100 pl-10 border-t border-gray-300 border-solid mt-2 ml-4" style="min-height: 1000px;">
     <p class="text-2xl font-semibold my-6">Channel content</p>
     <div class="bg-white">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -12,9 +12,9 @@
                       <th scope="col" class="px-6 py-3">
                           Name 
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <!-- <th scope="col" class="px-6 py-3">
                           Visibility 
-                      </th>
+                      </th> -->
                       <th scope="col" class="px-6 py-3">
                           Date
                       </th>
@@ -22,8 +22,11 @@
                           Views
                       </th>
                       <th scope="col" class="px-6 py-3">
-                          Like
+                          Experiment thumbnail
                       </th>
+                     <!--  <th scope="col" class="px-6 py-3">
+                          Like
+                      </th> -->
                       <th scope="col" class="px-6 py-3">
                     <span class="sr-only">Edit</span>
                 </th>
@@ -32,23 +35,33 @@
               <tbody>
                    <tr v-for="(item,key) in videos" :key="key" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                       <th scope="row" class="pl-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                          <img class="w-40" :src="$config.baseApiUrl + item.image_path" alt="">
+                          <img class="w-40" :src="$config.baseApiUrl + item.displayThumbnail.image_path" alt="">
                       </th>
                       <td class="px-6 py-4">
                           {{ item.name }}
                       </td>
-                      <td class="px-6 py-4">
+                      <!-- <td class="px-6 py-4">
                           True
-                      </td>
+                      </td> -->
                       <td class="px-6 py-4">
                           {{ item.created_at }}
                       </td>
                       <td class="px-6 py-4">
-                          {{ item.view }}
+                          {{ item.view | formatView }}
                       </td>
                       <td class="px-6 py-4">
-                          {{ item.like }}
+                          <!-- <i class="far fa-eye cursor-pointer" @click="changeVisibleModalExperiment"></i> -->
+                          <div>
+                              <div v-for="(thumbnail,index) in item.thumbnail" :key="index" class="flex mb-1">
+                                  <img class="w-40 mr-1" :src="$config.baseApiUrl + thumbnail.image_path" alt="">
+                                  <p class="mr-1"> view:{{ thumbnail.view }} </p>
+                                  <p> percent:{{ item.thumbnail | percentOfThumbnail(thumbnail.view) }}%</p>
+                              </div>
+                          </div>
                       </td>
+                     <!--  <td class="px-6 py-4">
+                          {{ item.like }}
+                      </td> -->
                       <td class="px-6 py-4 text-right">
                           <div class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer" @click="deleteVideo(item.id)">Delete</div>
                       </td>
@@ -56,7 +69,6 @@
               </tbody>
           </table>
       </div>
-
     </div>
   </article>
 </template>
@@ -64,11 +76,22 @@
 import axios from "axios"
 export default {
   name: 'StudioContent',
+    filters: {
+      percentOfThumbnail(value,number){
+        let total = 0;
+        value.forEach((value) => {
+            total += value.view;
+        });
+        const percent = number / total * 100;
+        return percent.toFixed(2);
+      }
+  },
   layout:'studio',
   middleware:['checkAuth','auth'],
   data(){
       return {
-          videos:null
+          videos:null,
+          visibleModalExperiment:null,
       }
   },
   created(){
@@ -91,6 +114,9 @@ export default {
             .catch((error) => {
                 console.error(error)
             })
+      },
+      changeVisibleModalExperiment(){
+          this.visibleModalExperiment = !this.visibleModalExperiment;
       }
   }
 }

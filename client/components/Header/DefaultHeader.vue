@@ -39,7 +39,7 @@
                     <div class="avatar h-full w-10 mr-9 bg-center bg-cover bg-no-repeat relative">
                         <img class="h-full w-full rounded-full cursor-pointer " :src="$config.baseApiUrl + $store.state.userLogin.image_path" alt="" @click="visiblePopup = !visiblePopup" >
                         
-                        <div v-if="visiblePopup" class="w-72 h-96 absolute right-12 top-0 border border-solid border-gray-300 bg-white" >
+                        <div v-if="visiblePopup" class="w-72 h-96 absolute right-12 top-0 border border-solid border-gray-300 bg-white z-10">
                             <div class="w-full h-100 p-3 flex">
                                 <img class="h-10 w-10 rounded-full mr-2" :src="$config.baseApiUrl + $store.state.userLogin.image_path" alt="">
                                 <div class="flex flex-col">

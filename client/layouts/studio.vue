@@ -1,7 +1,7 @@
 <template>
 <div class="box-sizing relative w-full h-full">
   <StudioHeader></StudioHeader>
-  <section class="flex w-full items-start">
+  <section class="flex w-full h-full items-start" >
     <StudioNavigation></StudioNavigation>
     <nuxt />
   </section>
@@ -36,14 +36,26 @@
                 <span class="text-red-500">{{ messages.descriptionMissing }}</span>
               </div>
               <div class="my-2">
-                <span>Image : </span>
+                <span>Thumbnails : </span>
+                <select v-model="visibleUploadMultipleImage" @change=" visibleUploadMultipleImage === 'true' ? visibleUploadMultipleImage = true : visibleUploadMultipleImage = false ">
+                  <option value="false">An image</option>
+                  <option value="true">Lost of pictures</option>
+                </select>
+              </div>
+              <div v-if="visibleUploadMultipleImage">
+                <input ref="inputImage" type="file" multiple @change="previewImage">
+                <div class="my-2 mx-auto w-96 flex justify-center">
+                  <div class="flex" v-html="imagePreviewBeforeUpload" ></div>
+                  <i v-if="$refs.uploadFile.files[0]" class="fa-solid fa-xmark ml-3 text-red-500 cursor-pointer inline" @click="deleteImagePreviewBeforeUpload"></i>
+                </div>
+              </div>
+              <div v-else>
                 <input ref="inputImage" type="file" @change="previewImage">
+                <div class="my-2 mx-auto w-96 flex justify-center">
+                  <div v-html="imagePreviewBeforeUpload"></div>
+                  <i v-if="$refs.uploadFile.files[0]" class="fa-solid fa-xmark ml-3 text-red-500 cursor-pointer inline" @click="deleteImagePreviewBeforeUpload"></i>
+                </div>
               </div>
-              <div class="my-2 mx-auto w-96 flex justify-center">
-                <img id="blah" class="w-60" :src="imagePreviewBeforeUpload" alt="your image" />  
-                <i v-if=" imagePreviewBeforeUpload != '/images/default.jpg'" class="fa-solid fa-xmark ml-3 text-red-500 cursor-pointer inline" @click="deleteImagePreviewBeforeUpload"></i>
-              </div>
-
             </div>
             <div v-else>
               <p class="font-normal">Drag and drop video files to upload</p>
@@ -54,9 +66,7 @@
             <p class="text-sm">By submitting your videos to YouTube, you acknowledge that you agree to YouTube's Terms of Service and Community Guidelines.</p>
             <p class="text-sm">Please make sure that you do not violate others' copyright or privacy rights. Learn more</p>
             <input ref="uploadFile" type="file" hidden @change="existingFile">
-            
           </div>
-          
 
         </div>
       </div>
@@ -82,12 +92,13 @@ export default {
         name:"",
         description:""
       },
-      imagePreviewBeforeUpload: "/images/default.jpg",
+      imagePreviewBeforeUpload: '<img id="blah" class="w-60 mr-1" src="/images/default.jpg" alt="your image" />',
       messages:{
         nameMissing:"",
         descriptionMissing:"",
       },
-      circleLoading:false
+      circleLoading:false,
+      visibleUploadMultipleImage:false
     }
   },
   methods: {
@@ -108,12 +119,16 @@ export default {
         const formData = new FormData();
         formData.append('name',this.video.name)
         formData.append('description',this.video.description)
-        formData.append('image',this.$refs.inputImage.files[0])
+        for(let i = 0; i < this.$refs.inputImage.files.length; i++){
+          formData.append('image[]',this.$refs.inputImage.files[i])
+        }
+        for (const [key, value] of formData) {
+          console.log(`${key}: ${value}`)
+        }
         formData.append('video',this.$refs.uploadFile.files[0])
-
         axios.post(process.env.baseApiUrl + '/api/v1/video',formData,{headers: {
+          'Authorization' : 'Bearer ' + this.$store.getters.getToken,
           'Content-Type' : 'multipart/form-data',
-          'Authorization' : 'Bearer ' + this.$store.getters.getToken
           }}).then(res => {
             if(res.data.code === 200){
               alert('add success !')
@@ -126,7 +141,7 @@ export default {
               this.video.name = ""
               this.video.description = ""
               this.circleLoading = false
-              this.imagePreviewBeforeUpload = "/images/default.jpg"
+              this.imagePreviewBeforeUpload = '<img id="blah" class="w-60 mr-1" src="/images/default.jpg" alt="your image" />'
             }else{
               alert('error !')
               this.hasFile = false;
@@ -138,7 +153,7 @@ export default {
               this.video.name = ""
               this.video.description = ""
               this.circleLoading = false
-              this.imagePreviewBeforeUpload = "/images/default.jpg"
+              this.imagePreviewBeforeUpload = '<img id="blah" class="w-60 mr-1" src="/images/default.jpg" alt="your image" />'
             }
           })
           .catch(error => {
@@ -154,7 +169,6 @@ export default {
         this.fileInfo.name = this.$refs.uploadFile.files[0].name;
         this.fileInfo.type = this.$refs.uploadFile.files[0].type;
         this.fileInfo.size = this.$refs.uploadFile.files[0].size;
-
       }
     },
     deleteFile(){
@@ -164,18 +178,29 @@ export default {
       this.fileInfo.name = "";
       this.fileInfo.type = "";
       this.fileInfo.size = "";
-      this.imagePreviewBeforeUpload = "/images/default.jpg"
+      this.imagePreviewBeforeUpload = '<img id="blah" class="w-60 mr-1" src="/images/default.jpg" alt="your image" />'
       this.messages.nameMissing = ""
       this.messages.descriptionMissing = ""
     },
     previewImage(){
-      const [file] = this.$refs.inputImage.files
-      if (file) {
-        this.imagePreviewBeforeUpload = URL.createObjectURL(file)
+      if(this.$refs.inputImage.files.length > 1){
+        for(let i=0; i < this.$refs.inputImage.files.length;i++){
+          if(i === 0){
+            this.imagePreviewBeforeUpload = '<img id="blah" class="w-24 mr-1" src="' + URL.createObjectURL(this.$refs.inputImage.files[i]) +'" alt="your image" />'
+          }else{
+            this.imagePreviewBeforeUpload = this.imagePreviewBeforeUpload + '<img id="blah" class="w-24 mr-1" src="' + URL.createObjectURL(this.$refs.inputImage.files[i]) +'" alt="your image" />'
+          }
+        }
+      }else{
+        const [file] = this.$refs.inputImage.files
+        if (file) {
+          this.imagePreviewBeforeUpload = '<img id="blah" class="w-60 mr-1" src="' + URL.createObjectURL(file) +'" alt="your image" />'
+        }
+
       }
     },
     deleteImagePreviewBeforeUpload(){
-      this.imagePreviewBeforeUpload = "/images/default.jpg"
+      this.imagePreviewBeforeUpload = '<img id="blah" class="w-60 mr-1" src="/images/default.jpg" alt="your image" />'
       this.$refs.inputImage.value = null;
     },
   }
