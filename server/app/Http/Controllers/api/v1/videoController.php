@@ -119,4 +119,27 @@ class videoController extends Controller
             ],404);
         }
     }
+    public function searchResult(Request $request){
+        if($request->input('key')){
+            $videos = $this->video->where('name','like','%'.$request->input('key').'%')->get();
+            if(empty($videos)){
+                return response()->json([
+                    'code' => 404,
+                    'message' => 'not found'
+                ],404);
+            }
+
+            return response()->json([
+                'code' => 200,
+                'data' => new VideoCollection($videos)
+            ],200);
+        }
+        return response()->json([
+            'code' => 400,
+            'message' => 'key not empty !'
+        ],400);
+        
+            
+        
+    }
 }
