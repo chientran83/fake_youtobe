@@ -52,16 +52,13 @@
                       <td class="px-6 py-4">
                           <!-- <i class="far fa-eye cursor-pointer" @click="changeVisibleModalExperiment"></i> -->
                           <div>
-                              <div v-for="(thumbnail,index) in item.thumbnail" :key="index" class="flex mb-1">
-                                  <img class="w-40 mr-1" :src="$config.baseApiUrl + thumbnail.image_path" alt="">
-                                  <p class="mr-1"> view:{{ thumbnail.view }} </p>
-                                  <p> percent:{{ item.thumbnail | percentOfThumbnail(thumbnail.view) }}%</p>
+                              <div class="flex mb-1">
+                                  <img class="w-40 mr-1" :src="$config.baseApiUrl + item.popular_thumbnail.image_path" alt="">
+                                  <p class="mr-1"> view:{{  item.popular_thumbnail.view }} </p>
+                                  <p> percent:{{ item.thumbnail | percentOfThumbnail(item.popular_thumbnail.view) }}%</p>
                               </div>
                           </div>
                       </td>
-                     <!--  <td class="px-6 py-4">
-                          {{ item.like }}
-                      </td> -->
                       <td class="px-6 py-4 text-right">
                           <div class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer" @click="deleteVideo(item.id)">Delete</div>
                       </td>
