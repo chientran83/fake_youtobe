@@ -32,6 +32,7 @@ Route::prefix('v1')->group(function(){
     Route::prefix('video')->group(function(){
         Route::get('/',[videoController::class,'index']);
         Route::get('/{id}',[videoController::class,'show']);
+        Route::post('/searchResult',[videoController::class,'searchResult']);
     });
     Route::prefix('user')->group(function(){
         Route::post('/',[userController::class,'register']);

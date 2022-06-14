@@ -17,7 +17,7 @@ class CreateVideoThumbnailsTable extends Migration
             $table->id();
             $table->string('image_path');
             $table->integer('view')->default(0);
-            $table->integer('display')->default(0);
+            $table->integer('popular_thumbnail')->default(0);
             $table->integer('video_id');
             $table->timestamps();
         });

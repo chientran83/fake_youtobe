@@ -16,10 +16,10 @@ class VideoResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+    
     public function toArray($request)
     {
         $thumbnails = VideoThumbnailResource::collection($this->thumbnail);
-
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -31,6 +31,7 @@ class VideoResource extends JsonResource
             'user' => DB::table('users')->where('id',$this->user_id)->first(),
             'thumbnail' => $thumbnails,
             'displayThumbnail' => $this->getDisplayThumbnail($thumbnails),
+            'popular_thumbnail' => VideoThumbnailResource::make($this->popularThumbnail),
             'created_at' => $this->created_at
         ];
     }
