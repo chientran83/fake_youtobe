@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 use Abrouter\Client\Client;
 use App\Service\RandomThumbnail;
+use Illuminate\Support\Facades\Redis;
 
 class VideoResource extends JsonResource
 {
@@ -18,40 +19,7 @@ class VideoResource extends JsonResource
     public function toArray($request)
     {
         $thumbnails = VideoThumbnailResource::collection($this->thumbnail);
-        // $displayThumbnail = $thumbnail[rand(0, count($thumbnail)-1)];
-        if($thumbnails){
-            $currentDisplayThumbnail = VideoThumbnailResource::collection($this->thumbnail)->where('display',1)->first();
-            if($currentDisplayThumbnail){
-                $ExistDisplayThumbnail = false;
-                if($thumbnails[count($thumbnails)-1]->display == 1){
-                    DB::table('tbl_video_thumbnail')->where('id',$thumbnails[0]->id)->update(['display' => 1]);
-                    $displayThumbnail = $thumbnails[0];
-                    DB::table('tbl_video_thumbnail')->where('id',$thumbnails[count($thumbnails)-1]->id)->update(['display' => 0]);
-                    //update to 1, that end update to 0
-                }else{
-                    for($i = 0;$i < count($thumbnails);$i++){
-                        if($ExistDisplayThumbnail == false){
-                            if($thumbnails[$i]->display == 1){
-                                $ExistDisplayThumbnail = true;
-                                DB::table('tbl_video_thumbnail')->where('id',$thumbnails[$i]->id)->update(['display' => 0]);
-                                //update to 0,
-                            }
-                        }else{
-                            DB::table('tbl_video_thumbnail')->where('id',$thumbnails[$i]->id)->update(['display' => 1]);
-                                //update to 1,
-                                $displayThumbnail = $thumbnails[$i];
-                                break;
-                        }
-                    }
-                }
-                    
-            }else{
-                DB::table('tbl_video_thumbnail')->where('id',$thumbnails[0]->id)->update(['display' => 1]);
-                $displayThumbnail = $thumbnails[0];
-            }
-        }else{
-            $displayThumbnail = null;
-        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -62,9 +30,25 @@ class VideoResource extends JsonResource
             'dislikes' => $this->dislikes,
             'user' => DB::table('users')->where('id',$this->user_id)->first(),
             'thumbnail' => $thumbnails,
-            'displayThumbnail' =>  $displayThumbnail,
+            'displayThumbnail' => $this->getDisplayThumbnail($thumbnails),
             'created_at' => $this->created_at
         ];
+    }
+
+    public function getDisplayThumbnail($thumbnails){
+        $displayThumbnail = $thumbnails[0];
+        for( $i = 0; $i < $thumbnails->count(); $i++){
+            if(Redis::get($thumbnails[$i]->id)){
+                if(Redis::get($thumbnails[$i]->id) < Redis::get($displayThumbnail->id)){
+                    $displayThumbnail = $thumbnails[$i];
+                }
+            }else{
+                Redis::set($thumbnails[$i]->id, 0);
+                $displayThumbnail = $thumbnails[$i];
+            }
+        }
+        Redis::set($displayThumbnail->id, Redis::get($displayThumbnail->id) + 1);
+        return $displayThumbnail;
     }
 
 }
