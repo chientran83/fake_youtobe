@@ -89,7 +89,8 @@
       </div>
     </div>
     <div class="video bg-gray-50 border-t border-gray-300 border-solid h-auto p-5 grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-6 xl:grid-cols-4 ">
-        <NuxtLink v-for="(index,key) in videos" :key="key" :to="'/videos/' + index.id +'?thumbnail='+index.displayThumbnail.id" tag="div" class="cursor-pointer h-auto">
+        <nuxt-link v-for="(index,key) in videos" :key="key" :to="'/videos/' + index.id +'?thumbnail='+index.displayThumbnail.id" tag="div" class="cursor-pointer h-auto">
+
           <img class="w-full h-40 bg-no-repeat bg-center bg-cover mb-3" :src="$config.baseApiUrl+ index.displayThumbnail.image_path" alt="">
           <div class="intro flex">
             <img class="w-10 h-10 bg-no-repeat bg-center bg-cover rounded-full mr-3" :src="$config.baseApiUrl+index.user.image_path" alt="">
@@ -104,13 +105,12 @@
               </div>
             </div> 
           </div>
-        </NuxtLink>
+        </nuxt-link>
     </div>
   </article>
 </template>
 <script>
 import Splide from '~/assets/splide-4.0.6/dist/js/splide.min.js';
-import '~/assets/splide-4.0.6/dist/css/splide.min.css';
 export default {
   name: 'IndexPage',
   data() {
@@ -129,7 +129,6 @@ export default {
   },
   created() {
     this.videos = this.$store.getters.getVideos;
-
   }
 }
 </script>

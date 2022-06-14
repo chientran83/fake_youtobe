@@ -12,6 +12,7 @@ use App\Traits\FileStorageTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+
 class userController extends Controller
 {
     use FileStorageTrait;

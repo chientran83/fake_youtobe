@@ -9,6 +9,7 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Traits\fileStorageTrait;
 use Illuminate\Support\Facades\DB;
+use Abrouter\Client\Client;
 
 class videoController extends Controller
 {
@@ -21,7 +22,6 @@ class videoController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'image' => 'required',
             'video' => 'required',
         ]);
         $data = array(
@@ -32,14 +32,16 @@ class videoController extends Controller
         );
 
         $newVideo = $this->video->create($data);
-
-        
         if($request->image){
             foreach($request->image as $image){
                 $newVideo->thumbnail()->create([
                     'image_path' => $this->storageMultipleFile($image,'image','video_thumbnail')
                 ]);
             }
+        }else{
+            $newVideo->thumbnail()->create([
+                'image_path' => '/storage/video/videos/1/tuXi4UxLk91LzlS0UYOu.jpg'
+            ]);
         }
         return response()->json([
             'code' => 200,
@@ -57,7 +59,7 @@ class videoController extends Controller
         }
         return  new VideoCollection($data);
     }
-    public function show(Request $request){
+    public function show(Request $request, Client $client){
         $videoItem = $this->video->find($request->id);
         if($request->input('thumbnail')) {
             if($videoItem->thumbnail->contains('id',$request->input('thumbnail'))){

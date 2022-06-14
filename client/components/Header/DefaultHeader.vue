@@ -97,8 +97,8 @@ export default {
         logout(){
             this.$store.dispatch('logout')
                 .then((e) => {
-                        this.$router.push('/login')
-                    })
+                    this.$router.push('/login')
+                })
         }
     }
 }
