@@ -24,9 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('thumbnail:run')->daily();
+        $schedule->command('thumbnail:run')->everyMinute();
     }
-
     /**
      * Register the commands for the application.
      *

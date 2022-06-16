@@ -120,8 +120,8 @@ class videoController extends Controller
         }
     }
     public function searchResult(Request $request){
-        if($request->input('key')){
-            $videos = $this->video->where('name','like','%'.$request->input('key').'%')->get();
+        if($request->input('keyWord')){
+            $videos = $this->video->where('name','like','%'.$request->input('keyWord').'%')->get();
             if(empty($videos)){
                 return response()->json([
                     'code' => 404,

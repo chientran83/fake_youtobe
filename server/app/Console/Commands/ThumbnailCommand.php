@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Video;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ThumbnailCommand extends Command
@@ -41,9 +42,11 @@ class ThumbnailCommand extends Command
     {
        $videos = DB::table('tbl_videos')->get();
        foreach($videos as $video){
-            $thumbnailWithHighView = DB::table('tbl_video_thumbnail')->where('video_id',$video->id)->orderBy('view','DESC')->first();
-            if($thumbnailWithHighView){
-                DB::table('tbl_videos')->where('id',$video->id)->update(['popular_thumbnail' => $thumbnailWithHighView->id]);
+            if($video->popular_thumbnail == 0 && $video->created_at < Carbon::now()->subDays(1)){
+                $thumbnailWithHighView = DB::table('tbl_video_thumbnail')->where('video_id',$video->id)->orderBy('view','DESC')->first();
+                if($thumbnailWithHighView){
+                    DB::table('tbl_videos')->where('id',$video->id)->update(['popular_thumbnail' => $thumbnailWithHighView->id]);
+                }
             }
         }
         return 0;

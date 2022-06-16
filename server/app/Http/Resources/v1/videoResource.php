@@ -19,7 +19,6 @@ class VideoResource extends JsonResource
     
     public function toArray($request)
     {
-        $thumbnails = VideoThumbnailResource::collection($this->thumbnail);
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -29,27 +28,10 @@ class VideoResource extends JsonResource
             'like' => $this->like,
             'dislikes' => $this->dislikes,
             'user' => DB::table('users')->where('id',$this->user_id)->first(),
-            'thumbnail' => $thumbnails,
-            'displayThumbnail' => $this->getDisplayThumbnail($thumbnails),
-            'popular_thumbnail' => VideoThumbnailResource::make($this->popularThumbnail),
+            'displayThumbnail' => $this->getDisplayThumbnail(VideoThumbnailResource::collection($this->thumbnail),VideoThumbnailResource::make($this->popularThumbnail)),
             'created_at' => $this->created_at
         ];
     }
-
-    public function getDisplayThumbnail($thumbnails){
-        $displayThumbnail = $thumbnails[0];
-        for( $i = 0; $i < $thumbnails->count(); $i++){
-            if(Redis::get($thumbnails[$i]->id)){
-                if(Redis::get($thumbnails[$i]->id) < Redis::get($displayThumbnail->id)){
-                    $displayThumbnail = $thumbnails[$i];
-                }
-            }else{
-                Redis::set($thumbnails[$i]->id, 0);
-                $displayThumbnail = $thumbnails[$i];
-            }
-        }
-        Redis::set($displayThumbnail->id, Redis::get($displayThumbnail->id) + 1);
-        return $displayThumbnail;
-    }
+    
 
 }
