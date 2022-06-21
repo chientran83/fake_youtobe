@@ -28,7 +28,7 @@ class VideoResource extends JsonResource
             'like' => $this->like,
             'dislikes' => $this->dislikes,
             'user' => DB::table('users')->where('id',$this->user_id)->first(),
-            'displayThumbnail' => $this->getDisplayThumbnail(VideoThumbnailResource::collection($this->thumbnail),VideoThumbnailResource::make($this->popularThumbnail)),
+            'displayThumbnail' => $this->getDisplayThumbnail(),
             'created_at' => $this->created_at
         ];
     }

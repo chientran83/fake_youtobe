@@ -2,8 +2,12 @@
 
 namespace App\Console;
 
+use App\Models\Video;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +28,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('thumbnail:run')->everyMinute();
+        $videos = Video::where('popular_thumbnail',0)->get();
+        foreach($videos as $video){
+            $endTime = $video->created_at->addDays(1);
+            $schedule->command('thumbnail:run '.$video->id)->yearlyOn($endTime->format('M'), $endTime->format('d'), $endTime->format('H:i'));
+        }
     }
     /**
      * Register the commands for the application.

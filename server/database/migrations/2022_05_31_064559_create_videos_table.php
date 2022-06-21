@@ -22,6 +22,7 @@ class CreateVideosTable extends Migration
             $table->integer('like')->default(0);
             $table->integer('dislike')->default(0);
             $table->integer('user_id');
+            $table->integer('popular_thumbnail')->default(0);
             $table->timestamps();
         });
     }
