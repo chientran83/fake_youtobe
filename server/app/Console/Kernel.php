@@ -28,11 +28,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $videos = Video::where('popular_thumbnail',0)->get();
-        foreach($videos as $video){
-            $endTime = $video->created_at->addDays(1);
-            $schedule->command('thumbnail:run '.$video->id)->yearlyOn($endTime->format('M'), $endTime->format('d'), $endTime->format('H:i'));
-        }
+       
     }
     /**
      * Register the commands for the application.

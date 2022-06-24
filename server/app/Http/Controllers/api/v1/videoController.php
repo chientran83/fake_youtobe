@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Traits\fileStorageTrait;
 use Illuminate\Support\Facades\DB;
 use Abrouter\Client\Client;
+use App\Jobs\ProcessGetDisplayThumnail;
+use Carbon\Carbon;
 
 class videoController extends Controller
 {
@@ -43,6 +45,10 @@ class videoController extends Controller
                 'image_path' => '/storage/video/videos/1/tuXi4UxLk91LzlS0UYOu.jpg'
             ]);
         }
+
+        ProcessGetDisplayThumnail::dispatch($newVideo)
+                    ->delay(now()->addHours(24));
+
         return response()->json([
             'code' => 200,
             'data' => new VideoResource($newVideo)
@@ -120,26 +126,17 @@ class videoController extends Controller
         }
     }
     public function searchResult(Request $request){
-        if($request->input('keyWord')){
-            $videos = $this->video->where('name','like','%'.$request->input('keyWord').'%')->get();
-            if(empty($videos)){
-                return response()->json([
-                    'code' => 404,
-                    'message' => 'not found'
-                ],404);
-            }
-
+        $videos = $this->video->where('name','like','%'.$request->input('keyWord').'%')->get();
+        if(empty($videos)){
             return response()->json([
-                'code' => 200,
-                'data' => new VideoCollection($videos)
-            ],200);
+                'code' => 404,
+                'message' => 'not found'
+            ],404);
         }
+
         return response()->json([
-            'code' => 400,
-            'message' => 'key not empty !'
-        ],400);
-        
-            
-        
+            'code' => 200,
+            'data' => new VideoCollection($videos)
+        ],200);
     }
 }
